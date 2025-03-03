@@ -26,7 +26,7 @@ jobs:
       - name: Run script for 1 hour
         run: |
           chmod +x main.sh
-          timeout 1h bash main.sh --debug
+          timeout 1h bash main.sh
 
       - name: Upload CSV file
         uses: actions/upload-artifact@v4 # Updated to v4
