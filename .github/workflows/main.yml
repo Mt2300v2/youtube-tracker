@@ -25,7 +25,7 @@ jobs:
 
       - name: Run script for 1 hour
         run: |
-          timeout 1h bash scrape_youtube_data.sh
+          timeout 1h bash scrape_youtube_data.sh --debug
 
       - name: Upload CSV file
         uses: actions/upload-artifact@v3
