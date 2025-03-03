@@ -1,0 +1,42 @@
+name: YouTube Data Scraper
+
+on:
+  workflow_dispatch: # Allows manual triggering
+  schedule:
+    - cron: '0 * * * *' # Runs every hour
+
+jobs:
+  scrape_data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install curl jq
+
+      - name: Run script for 1 hour
+        run: |
+          timeout 1h bash scrape_youtube_data.sh
+
+      - name: Upload CSV file
+        uses: actions/upload-artifact@v3
+        with:
+          name: video_data
+          path: video_data*.csv
+          if-no-files-found: ignore
+
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Update scraped data"
+          file_pattern: video_data*.csv
+          branch: main # or your default branch
