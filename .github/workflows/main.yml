@@ -3,7 +3,7 @@ name: YouTube Data Scraper
 on:
   workflow_dispatch: # Allows manual triggering
   schedule:
-    - cron: '0 * * * *' # Runs every hour
+    - cron: '0 0,5,10,15,20 * * *' # Runs every hour
 
 jobs:
   scrape_data:
@@ -23,10 +23,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install curl jq
 
-      - name: Run script for 1 hour
+      - name: Run script for 5 hours
         run: |
           chmod +x main.sh
-          timeout 1h bash main.sh || true
+          timeout 5h bash main.sh || true
 
       - name: Upload CSV file
         uses: actions/upload-artifact@v4 # Updated to v4
